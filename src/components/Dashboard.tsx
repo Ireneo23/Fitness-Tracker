@@ -1,19 +1,23 @@
-import { useEffect, useState } from 'react';
-import { Card } from '@/components/ui/card';
-import { Progress } from '@/components/ui/progress';
-import { Button } from '@/components/ui/button';
-import { Plus, Activity, Target, Calendar } from 'lucide-react';
-import { motionSensor } from '@/services/motionSensor';
-import { storageService } from '@/services/storageService';
-import { DailyActivity, UserProfile } from '@/types/fitness';
+import { useEffect, useState } from "react";
+import { Card } from "@/components/ui/card";
+import { Progress } from "@/components/ui/progress";
+import { Button } from "@/components/ui/button";
+import { Plus, Activity, Target, Calendar } from "lucide-react";
+import { motionSensor } from "@/services/motionSensor";
+import { storageService } from "@/services/storageService";
+import { DailyActivity, UserProfile } from "@/types/fitness";
 
 interface DashboardProps {
   onManualEntryClick: () => void;
 }
 
 export const Dashboard = ({ onManualEntryClick }: DashboardProps) => {
-  const [todaysActivity, setTodaysActivity] = useState<DailyActivity>(storageService.getTodaysActivity());
-  const [profile, setProfile] = useState<UserProfile>(storageService.getProfile());
+  const [todaysActivity, setTodaysActivity] = useState<DailyActivity>(
+    storageService.getTodaysActivity()
+  );
+  const [profile, setProfile] = useState<UserProfile>(
+    storageService.getProfile()
+  );
   const [isTracking, setIsTracking] = useState(false);
 
   useEffect(() => {
@@ -29,7 +33,7 @@ export const Dashboard = ({ onManualEntryClick }: DashboardProps) => {
         if (hasPermission) {
           motionSensor.startTracking(todaysActivity.steps);
           setIsTracking(true);
-          
+
           motionSensor.onStepUpdate((steps) => {
             storageService.updateTodaysSteps(steps);
             updateActivity();
@@ -39,7 +43,7 @@ export const Dashboard = ({ onManualEntryClick }: DashboardProps) => {
     };
 
     initMotionSensor();
-    
+
     // Update activity every minute
     const interval = setInterval(updateActivity, 60000);
 
@@ -50,11 +54,11 @@ export const Dashboard = ({ onManualEntryClick }: DashboardProps) => {
   }, []);
 
   const progressPercentage = (todaysActivity.steps / profile.stepGoal) * 100;
-  const today = new Date().toLocaleDateString('en-US', { 
-    weekday: 'long', 
-    year: 'numeric', 
-    month: 'long', 
-    day: 'numeric' 
+  const today = new Date().toLocaleDateString("en-US", {
+    weekday: "long",
+    year: "numeric",
+    month: "long",
+    day: "numeric",
   });
 
   return (
@@ -65,7 +69,7 @@ export const Dashboard = ({ onManualEntryClick }: DashboardProps) => {
           <h1 className="text-2xl font-bold text-foreground">FitTracker</h1>
           <div className="flex items-center gap-2 text-sm text-muted-foreground">
             <Calendar className="w-4 h-4" />
-            {isTracking ? 'Live tracking' : 'Manual entry'}
+            {isTracking ? "Live tracking" : "Manual entry"}
           </div>
         </div>
         <p className="text-muted-foreground">{today}</p>
@@ -80,14 +84,15 @@ export const Dashboard = ({ onManualEntryClick }: DashboardProps) => {
             </div>
             <p className="text-muted-foreground">steps today</p>
           </div>
-          
+
           <div className="mb-4">
-            <Progress 
-              value={Math.min(progressPercentage, 100)} 
+            <Progress
+              value={Math.min(progressPercentage, 100)}
               className="h-3 mb-2"
             />
             <p className="text-sm text-muted-foreground">
-              {Math.round(progressPercentage)}% of {profile.stepGoal.toLocaleString()} goal
+              {Math.round(progressPercentage)}% of{" "}
+              {profile.stepGoal.toLocaleString()} goal
             </p>
           </div>
 
@@ -134,16 +139,27 @@ export const Dashboard = ({ onManualEntryClick }: DashboardProps) => {
       {/* Manual Entries */}
       {todaysActivity.manualEntries.length > 0 && (
         <Card className="p-4 shadow-card">
-          <h3 className="font-semibold mb-3 text-foreground">Today's Activities</h3>
+          <h3 className="font-semibold mb-3 text-foreground">
+            Today's Activities
+          </h3>
           <div className="space-y-2">
             {todaysActivity.manualEntries.map((entry) => (
-              <div key={entry.id} className="flex justify-between items-center py-2 border-b border-border last:border-0">
+              <div
+                key={entry.id}
+                className="flex justify-between items-center py-2 border-b border-border last:border-0"
+              >
                 <div>
-                  <p className="font-medium text-foreground">{entry.activity}</p>
-                  <p className="text-sm text-muted-foreground">{entry.duration} minutes</p>
+                  <p className="font-medium text-foreground">
+                    {entry.activity}
+                  </p>
+                  <p className="text-sm text-muted-foreground">
+                    {entry.duration} minutes
+                  </p>
                 </div>
                 <div className="text-right">
-                  <p className="font-medium text-calories">{entry.calories} cal</p>
+                  <p className="font-medium text-calories">
+                    {entry.calories} cal
+                  </p>
                 </div>
               </div>
             ))}

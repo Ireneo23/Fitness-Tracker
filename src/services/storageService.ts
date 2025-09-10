@@ -33,6 +33,12 @@ export class StorageService {
     try {
       this.data.lastSync = Date.now();
       localStorage.setItem(STORAGE_KEY, JSON.stringify(this.data));
+      // Notify listeners in the app that data has changed
+      try {
+        window.dispatchEvent(new Event('fitness-data-updated'));
+      } catch (_) {
+        // window may be unavailable in some environments
+      }
     } catch (error) {
       console.error('Failed to save data to localStorage:', error);
     }
