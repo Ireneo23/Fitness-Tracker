@@ -8,6 +8,7 @@ import { motionSensor } from "@/services/motionSensor";
 import { DataConverter } from "@/services/dataConverter";
 import { useFitness } from "@/contexts/FitnessContext";
 import { DailyActivityUI } from "@/types/fitness";
+import workoutBg from "@/assets/images/workoutbackground.png";
 
 interface DashboardProps {
   onManualEntryClick: () => void;
@@ -109,7 +110,15 @@ export const Dashboard = ({ onManualEntryClick }: DashboardProps) => {
       </div>
 
       {/* Main Step Counter */}
-      <Card className="mb-6 p-6 shadow-card bg-gradient-card">
+      <Card
+        className="mb-6 p-6 shadow-card"
+        style={{
+          backgroundImage: `url(${workoutBg})`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          backgroundRepeat: "no-repeat",
+        }}
+      >
         <div className="text-center">
           <div className="mb-4">
             <div className="text-6xl font-bold bg-gradient-primary bg-clip-text text-transparent mb-2">

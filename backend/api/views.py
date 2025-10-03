@@ -109,7 +109,7 @@ def login_view(request):
         return Response({'detail': 'username and password are required.'}, status=status.HTTP_400_BAD_REQUEST)
     user = authenticate(request, username=username, password=password)
     if user is None:
-        return Response({'detail': 'Invalid credentials.'}, status=status.HTTP_401_UNAUTHORIZED)
+        return Response({'detail': 'Invalid password or username.'}, status=status.HTTP_401_UNAUTHORIZED)
     serializer = UserSerializer(user)
     return Response(serializer.data, status=status.HTTP_200_OK)
 
