@@ -71,6 +71,7 @@ export const History = () => {
     const csvRows = [headers.join(",")];
 
     historyData.forEach((day) => {
+      const date = new Date(day.date);
       const manualEntriesCount = day.manualEntries.length;
       const distanceKm = day.distance; // Distance is already in km
       const totalCalories = DataConverter.calculateTotalCalories(day);

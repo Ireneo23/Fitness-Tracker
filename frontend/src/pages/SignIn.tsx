@@ -54,7 +54,7 @@ const SignIn: React.FC = () => {
     setIsLoading(true);
     try {
       await signIn(loginData);
-      // Wait a bit for the authentication state to update
+      // Wait sa kadali para sa authentication state to update
       setTimeout(() => {
         navigate("/dashboard");
       }, 100);
